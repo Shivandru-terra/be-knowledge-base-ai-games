@@ -5,13 +5,12 @@ class GCSStorageService:
     def __init__(self, bucket_name: str):
         self.client = storage.Client()
         self.bucket = self.client.bucket(bucket_name)
-        # self.base_prefix = "school-game/"
+
     
     def list_files(self, game_id: str = "" ) -> List[str]:
         try:
             full_prefix = f"{game_id}/"
             blobs_iter = self.bucket.list_blobs(prefix=full_prefix)
-            # return [b.name for b in blobs_iter if not b.name.endswith('/')]
             return [
                 b.name.replace(f"{game_id}/", "", 1)
                 for b in blobs_iter
